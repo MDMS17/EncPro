@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{79002832-5481-4260-B40C-463D4FCA4604}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EncModel</RootNamespace>
+    <AssemblyName>EncModel</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="277CA\277CABillProv.cs" />
+    <Compile Include="277CA\277CAFile.cs" />
+    <Compile Include="277CA\277CALine.cs" />
+    <Compile Include="277CA\277CAPatient.cs" />
+    <Compile Include="277CA\277CAStc.cs" />
+    <Compile Include="277CA\Cms277CAContext.cs" />
+    <Compile Include="820\Premium820File.cs" />
+    <Compile Include="820\Premium820Member.cs" />
+    <Compile Include="820\P{remium820Context.cs" />
+    <Compile Include="835\Claim835.cs" />
+    <Compile Include="835\Context835.cs" />
+    <Compile Include="835\File835.cs" />
+    <Compile Include="999\999Element.cs" />
+    <Compile Include="999\999Error.cs" />
+    <Compile Include="999\999File.cs" />
+    <Compile Include="999\999Transaction.cs" />
+    <Compile Include="999\Cms999Context.cs" />
+    <Compile Include="DHCS\DHCSContext.cs" />
+    <Compile Include="DHCS\DHCSEncounter.cs" />
+    <Compile Include="DHCS\DHCSEncounterResponse.cs" />
+    <Compile Include="DHCS\DHCSFile.cs" />
+    <Compile Include="DHCS\DHCSServiceLine.cs" />
+    <Compile Include="DHCS\DHCSTransaction.cs" />
+    <Compile Include="EdiManagement\EdiManagementContext.cs" />
+    <Compile Include="EdiManagement\EdiManagementUtility.cs" />
+    <Compile Include="Log\LoadLog.cs" />
+    <Compile Include="Log\LogContext.cs" />
+    <Compile Include="Log\LogUtility.cs" />
+    <Compile Include="MAO2\CmsMao2Context.cs" />
+    <Compile Include="MAO2\Mao2Detail.cs" />
+    <Compile Include="MAO2\Mao2File.cs" />
+    <Compile Include="Meditrac\MeditracCode.cs" />
+    <Compile Include="Meditrac\MeditracContext.cs" />
+    <Compile Include="Meditrac\MeditracHeader.cs" />
+    <Compile Include="Meditrac\MeditracLine.cs" />
+    <Compile Include="Meditrac\MeditracUtility.cs" />
+    <Compile Include="Misc\CalculatedCounts.cs" />
+    <Compile Include="Misc\ClaimValidationError.cs" />
+    <Compile Include="Misc\DupLineI.cs" />
+    <Compile Include="Misc\DupLineP.cs" />
+    <Compile Include="Misc\MemberDetail.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Subcache\SubcacheContext.cs" />
+    <Compile Include="Subcache\SubcacheModel.cs" />
+    <Compile Include="Subcache\SubcacheUtility.cs" />
+    <Compile Include="SubHistory\SubHistoryContext.cs" />
+    <Compile Include="SubHistory\SubHistoryModel.cs" />
+    <Compile Include="SubHistory\SubHistoryUtility.cs" />
+    <Compile Include="X12\AMT.cs" />
+    <Compile Include="X12\BHT.cs" />
+    <Compile Include="X12\CAS.cs" />
+    <Compile Include="X12\CL1.cs" />
+    <Compile Include="X12\CLM_I.cs" />
+    <Compile Include="X12\CLM_P.cs" />
+    <Compile Include="X12\CN1.cs" />
+    <Compile Include="X12\CR1.cs" />
+    <Compile Include="X12\CR2.cs" />
+    <Compile Include="X12\CR3.cs" />
+    <Compile Include="X12\CRC.cs" />
+    <Compile Include="X12\CTP.cs" />
+    <Compile Include="X12\CUR.cs" />
+    <Compile Include="X12\DMG.cs" />
+    <Compile Include="X12\DN1.cs" />
+    <Compile Include="X12\DN2.cs" />
+    <Compile Include="X12\DTP.cs" />
+    <Compile Include="X12\GE.cs" />
+    <Compile Include="X12\GS.cs" />
+    <Compile Include="X12\HCP.cs" />
+    <Compile Include="X12\HI_I.cs" />
+    <Compile Include="X12\HI_P.cs" />
+    <Compile Include="X12\HL.cs" />
+    <Compile Include="X12\IEA.cs" />
+    <Compile Include="X12\ISA.cs" />
+    <Compile Include="X12\IX12SegmentBase.cs" />
+    <Compile Include="X12\IX12Segments.cs" />
+    <Compile Include="X12\K3.cs" />
+    <Compile Include="X12\LIN.cs" />
+    <Compile Include="X12\LQ.cs" />
+    <Compile Include="X12\LX.cs" />
+    <Compile Include="X12\MEA.cs" />
+    <Compile Include="X12\MIA.cs" />
+    <Compile Include="X12\MQA.cs" />
+    <Compile Include="X12\N3.cs" />
+    <Compile Include="X12\N4.cs" />
+    <Compile Include="X12\NM1.cs" />
+    <Compile Include="X12\NTE.cs" />
+    <Compile Include="X12\OI.cs" />
+    <Compile Include="X12\PAT.cs" />
+    <Compile Include="X12\PER.cs" />
+    <Compile Include="X12\PRV.cs" />
+    <Compile Include="X12\PS1.cs" />
+    <Compile Include="X12\PWK.cs" />
+    <Compile Include="X12\QTY.cs" />
+    <Compile Include="X12\REF.cs" />
+    <Compile Include="X12\SBR.cs" />
+    <Compile Include="X12\SE.cs" />
+    <Compile Include="X12\ST.cs" />
+    <Compile Include="X12\SV1.cs" />
+    <Compile Include="X12\SV2.cs" />
+    <Compile Include="X12\SV3.cs" />
+    <Compile Include="X12\SV5.cs" />
+    <Compile Include="X12\SVD.cs" />
+    <Compile Include="X12\TOO.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SQL\CMS277CA.sql" />
+    <Content Include="SQL\CMS999.sql" />
+    <Content Include="SQL\CMSMAO002.sql" />
+    <Content Include="SQL\CMSMAO004.sql" />
+    <Content Include="SQL\DHCS.sql" />
+    <Content Include="SQL\Finance835.sql" />
+    <Content Include="SQL\Pah42.sql" />
+    <Content Include="SQL\Premium820.sql" />
+    <Content Include="SQL\Subcache.sql" />
+    <Content Include="SQL\SubHistory.sql" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+</Project>
