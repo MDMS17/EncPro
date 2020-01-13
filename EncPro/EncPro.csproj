@@ -85,10 +85,14 @@
     <Compile Include="Processes\ParseData\Parser277CA.cs" />
     <Compile Include="Processes\ParseData\Parser999.cs" />
     <Compile Include="Processes\ParseData\ParserMao2.cs" />
+    <Compile Include="Processes\ParseData\Process834.cs" />
     <Compile Include="Processes\ParseData\Process835.cs" />
     <Compile Include="Processes\ParseData\Process837.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="EncMain.resx">
+      <DependentUpon>EncMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

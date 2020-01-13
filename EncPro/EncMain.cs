@@ -23,6 +23,7 @@ using EncModel._999;
 using EncModel._277CA;
 using EncModel.MAO2;
 using EncModel.Premium820;
+using EncModel.M834;
 
 namespace EncPro
 {
@@ -145,7 +146,7 @@ namespace EncPro
                 DHCS_Professional = GlobalVariables.TotalDHCSP,
                 LoadedBy = Environment.UserName
             };
-            //await LogUtility.SaveLog(log);
+            await LogUtility.SaveLog(log);
             lbRunningStatus.Text = "Loading data for" + startDate + " to " + endDate + " done!";
             btLoadData.Enabled = true;
         }
@@ -403,7 +404,9 @@ namespace EncPro
                 case "820":
                     Parse820();
                     break;
-
+                case "834":
+                    Parse834();
+                    break;
             }
         }
         private void ParseCms999()
@@ -1094,6 +1097,109 @@ namespace EncPro
                 {
                     sbLog.AppendLine("End time:" + DateTime.Now.ToString());
                     File.AppendAllText(Path.Combine(Premium820LogFolder, "Premium820Log.txt"), sbLog.ToString());
+                }
+            }
+        }
+        private void Parse834()
+        {
+            string SourceFolder834 = tbResponseSourceFolder.Text; ;
+            string ArchiveFolder834 = tbResponseArchiveFolder.Text;
+            string LogFolder834 = ConfigurationManager.AppSettings["LogFolder"];
+            if (!Directory.Exists(ArchiveFolder834)) Directory.CreateDirectory(ArchiveFolder834);
+            if (!Directory.Exists(LogFolder834)) Directory.CreateDirectory(LogFolder834);
+            //processing 834 files
+            if (SourceFolder834 != null && Directory.GetFiles(SourceFolder834, "*", SearchOption.AllDirectories).Length > 0)
+            {
+                StringBuilder sbLog = new StringBuilder();
+                sbLog.AppendLine("Start time:" + DateTime.Now.ToString());
+                try
+                {
+                    DirectoryInfo di = new DirectoryInfo(SourceFolder834);
+                    FileInfo[] fis = di.GetFiles();
+                    Parallel.ForEach(fis, new ParallelOptions { MaxDegreeOfParallelism = 4 }, (fi) => {
+                        using (var context = new M834Context())
+                        {
+                            M834File processingFile = context.M834Files.FirstOrDefault(x => x.FileName == fi.Name);
+                            if (processingFile != null)
+                            {
+                                Console.WriteLine("File " + fi.Name + " already processed before");
+                                sbLog.AppendLine("File " + fi.Name + " already processed before");
+                                return;
+                            }
+                            string s834 = File.ReadAllText(fi.FullName).Replace("\n", "").Replace("\r", "");
+                            string[] s834Lines = s834.Split('~');
+                            s834 = null;
+                            int memberCount = s834Lines.Count(x => x.StartsWith("INS*"));
+                            if (memberCount < 1)
+                            {
+                                Console.WriteLine("File " + fi.Name + " not valid");
+                                sbLog.AppendLine("File " + fi.Name + " not valid");
+                                return;
+                            }
+                            Console.WriteLine("Processing file " + fi.Name + " total records: " + memberCount.ToString());
+                            sbLog.AppendLine("Processing file " + fi.Name + " total records: " + memberCount.ToString());
+
+                            processingFile = new M834File();
+                            processingFile.FileName = fi.Name;
+
+                            string tempSeg = s834Lines[0];
+                            string[] tempArray = tempSeg.Split('*');
+                            processingFile.SenderId = tempArray[6].Trim();
+                            processingFile.ReceiverId = tempArray[8].Trim();
+                            processingFile.InterchangeControlNumber = tempArray[13];
+                            char elementDelimiter = (char)tempArray[16].ToCharArray()[0];
+                            processingFile.CreateUser = Environment.UserName;
+                            processingFile.CreateDate = DateTime.Now;
+                            tempSeg = s834Lines[1];
+                            tempArray = tempSeg.Split('*');
+                            processingFile.TransactionDate = tempArray[4];
+                            processingFile.TransactionTime = tempArray[5];
+                            tempSeg = s834Lines[3];
+                            tempArray = tempSeg.Split('*');
+                            processingFile.TransactionPurposeCode = tempArray[1];
+                            processingFile.TransactionReferenceNumber = tempArray[2];
+                            processingFile.TransactionTimeCode = tempArray[5];
+                            processingFile.TransactionActionCode = tempArray[8];
+                            tempSeg = s834Lines[4];
+                            tempArray = tempSeg.Split('*');
+
+                            context.M834Files.Add(processingFile);
+                            context.SaveChanges();
+                            string LoopNumber = "Header";
+                            Elig834 elig834 = new Elig834();
+                            elig834.m834file = processingFile;
+                            int lineNumber = 0;
+                            foreach (string s834Line in s834Lines)
+                            {
+                                ParseData.Process834.Process834Line(s834Line, elementDelimiter, ref elig834, ref LoopNumber, ref lineNumber);
+                                lineNumber++;
+                            }
+                            context.M834AdditionalNames.AddRange(elig834.m834additionalnames);
+                            context.M834Details.AddRange(elig834.m834details);
+                            context.M834DisabilityInfos.AddRange(elig834.m834disabilityinfos);
+                            context.M834EmploymentClasses.AddRange(elig834.m834employmentclasses);
+                            context.M834HCCOBInfos.AddRange(elig834.m834hccobinfos);
+                            context.M834HCProviderInfos.AddRange(elig834.m834hcproviderinfos);
+                            context.M834HealthCoverages.AddRange(elig834.m834healthcoverages);
+                            context.M834Languages.AddRange(elig834.m834languages);
+                            context.M834MemberLevelDates.AddRange(elig834.m834memberleveldates);
+                            context.M834PolicyAnounts.AddRange(elig834.m834policyamounts);
+                            context.M834ReportingCategories.AddRange(elig834.m834reportingcategories);
+                            context.M834SubIds.AddRange(elig834.m834subids);
+                            context.SaveChanges();
+                        }
+                        if (File.Exists(Path.Combine(ArchiveFolder834, fi.Name))) File.Delete(Path.Combine(ArchiveFolder834, fi.Name));
+                        fi.MoveTo(Path.Combine(ArchiveFolder834, fi.Name));
+                    });
+                }
+                catch (Exception ex)
+                {
+                    sbLog.AppendLine(ex.Message);
+                }
+                finally
+                {
+                    sbLog.AppendLine("End time:" + DateTime.Now.ToString());
+                    File.AppendAllText(Path.Combine(LogFolder834, "Log834.txt"), sbLog.ToString());
                 }
             }
         }
