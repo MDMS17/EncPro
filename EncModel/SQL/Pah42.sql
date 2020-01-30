@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[HisHeader](
+﻿CREATE TABLE [dbo].[HisHeaders](
 	[FileID] [int] IDENTITY(1,1) NOT NULL,
 	[RecordType] [varchar](50) NULL,
 	[VersionReleaseNumber] [varchar](2) NULL,
@@ -18,7 +18,7 @@
 	[Total_Gross_Amount_Due] [varchar](12) NULL,
 	[Total_Patient_Pay_Amount] [varchar](12) NULL,
 	[AddedDate] [datetime] NULL,
- CONSTRAINT [PK_HisHeader] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_HisHeaders] PRIMARY KEY CLUSTERED 
 (
 	[FileID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -26,10 +26,10 @@
 GO
 
 
-CREATE TABLE [dbo].[HisDetail](
+CREATE TABLE [dbo].[HisDetails](
 	[DetailID] [int] IDENTITY(1,1) NOT NULL,
 	[FileID] [int] NOT NULL,
-	[Record_Type] [varchar](1) NULL,
+	[Record_Type] [varchar](2) NULL,
 	[Record_Indicator] [varchar](1) NULL,
 	[Eligible_Coverage_Code] [varchar](3) NULL,
 	[User_Benefit_ID] [varchar](10) NULL,
@@ -344,7 +344,7 @@ CREATE TABLE [dbo].[HisDetail](
 	[COB_Primary_Payer_Deductible] [varchar](8) NULL,
 	[COB_Primary_Payer_Coinsurance] [varchar](8) NULL,
 	[COB_Primary_Payer_Copay] [varchar](8) NULL,
-	[COB_Secondary_Payer_ID] [varchar](8) NULL,
+	[COB_Secondary_Payer_ID] [varchar](10) NULL,
 	[COB_Secondary_Payer_Amount_Paid] [varchar](8) NULL,
 	[COB_Secondary_Payer_Deductible] [varchar](8) NULL,
 	[COB_Secondary_Payer_Coinsurance] [varchar](8) NULL,
@@ -413,7 +413,7 @@ CREATE TABLE [dbo].[HisDetail](
 	[Medicare_PartD_Plan_Benefit_Package] [varchar](3) NULL,
 	[Medicare_Drug_Coverage_Code] [varchar](2) NULL,
 	[AddedDate] [datetime] NULL,
- CONSTRAINT [PK_HisDetail] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_HisDetails] PRIMARY KEY CLUSTERED 
 (
 	[DetailID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]

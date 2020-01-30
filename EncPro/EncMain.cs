@@ -24,6 +24,8 @@ using EncModel._277CA;
 using EncModel.MAO2;
 using EncModel.Premium820;
 using EncModel.M834;
+using EncModel.Raps;
+using EncModel.ChartReview;
 
 namespace EncPro
 {
@@ -407,7 +409,210 @@ namespace EncPro
                 case "834":
                     Parse834();
                     break;
+                case "NCPDP":
+                    ParseNCPDP();
+                    break;
+                case "Raps":
+                    ParseRaps();
+                    break;
             }
+        }
+        private void ParseRaps()
+        {
+            string RapsSourceFolder = tbResponseSourceFolder.Text;
+            string RapsArchiveFolder = tbResponseArchiveFolder.Text;
+            string RapsLogFolder = ConfigurationManager.AppSettings["LogFolder"];
+            if (!Directory.Exists(RapsArchiveFolder)) Directory.CreateDirectory(RapsArchiveFolder);
+            if (!Directory.Exists(RapsLogFolder)) Directory.CreateDirectory(RapsLogFolder);
+            //processing dhcs response files
+            if (RapsSourceFolder != null && Directory.GetFiles(RapsSourceFolder, "*", SearchOption.AllDirectories).Length > 0)
+            {
+                System.Text.StringBuilder sbLog = new StringBuilder();
+                sbLog.AppendLine("Start time:" + DateTime.Now.ToString());
+                try
+                {
+                    DirectoryInfo di = new DirectoryInfo(RapsSourceFolder);
+                    FileInfo[] fis = di.GetFiles();
+                    Parallel.ForEach(fis, new ParallelOptions { MaxDegreeOfParallelism = 4 }, (fi) => {
+                        List<RapsBatch> batches = new List<RapsBatch>();
+                        List<RapsDetail> details = new List<RapsDetail>();
+                        using (var context = new RapsContext())
+                        {
+                            RapsFile processingFile = context.RapsFiles.FirstOrDefault(x => x.FileName == fi.Name);
+                            if (processingFile != null)
+                            {
+                                Console.WriteLine("File " + fi.Name + " already processed before");
+                                sbLog.AppendLine("File " + fi.Name + " already processed before");
+                                return;
+                            }
+                            Console.WriteLine("Processing file " + fi.Name + " now...");
+                            sbLog.AppendLine("Processing file " + fi.Name + " now...");
+                            string sRaps = File.ReadAllText(fi.FullName).Replace("\r", "");
+                            string[] sRapsLines = sRaps.Split('\n');
+                            sRaps = null;
+                            processingFile = new RapsFile();
+                            processingFile.FileName = fi.Name;
+                            context.RapsFiles.Add(processingFile);
+                            context.SaveChanges();
+                            int lineNumber = 0;
+                            foreach (string line in sRapsLines)
+                            {
+                                Match fileMatch = ParseData.Regexes.RapsFile().Match(line);
+                                Match batchMatch = ParseData.Regexes.RapsBatch().Match(line);
+                                Match detailMatch = ParseData.Regexes.RapsDetail().Match(line);
+                                Match batchTrailerMatch = ParseData.Regexes.BatchTrailer().Match(line);
+                                Match fileTrailerMatch = ParseData.Regexes.FileTrailer().Match(line);
+                                if (fileMatch.Success)
+                                {
+                                    processingFile.SubmitterId = fileMatch.Groups["SubmitterId"].Value.Trim();
+                                    processingFile.InterchangeControlNumber = fileMatch.Groups["InterchangeControlNumber"].Value.Trim();
+                                    processingFile.TransactionDate = fileMatch.Groups["TransactionDate"].Value.Trim();
+                                    processingFile.ProductionIndicator = fileMatch.Groups["ProductionIndicator"].Value.Trim();
+                                }
+                                else if (batchMatch.Success)
+                                {
+                                    RapsBatch batch = new RapsBatch
+                                    {
+                                        BatchId = "BA" + lineNumber.ToString().PadLeft(7, '0'),
+                                        BatchSequence = batchMatch.Groups["SequenceNumber"].Value.Trim(),
+                                        PlanNumber = batchMatch.Groups["PlanNumber"].Value.Trim()
+                                    };
+                                    batches.Add(batch);
+                                }
+                                else if (detailMatch.Success)
+                                {
+                                    RapsDetail detail = new RapsDetail
+                                    {
+                                        FileId = processingFile.FileId,
+                                        BatchId = batches.Last().BatchId,
+                                        DetailSequence = detailMatch.Groups["DetailSequence"].Value.Trim(),
+                                        SequenceErrorCode = detailMatch.Groups["SequenceErrorCode"].Value.Trim(),
+                                        PatientControlNumber = detailMatch.Groups["PatientControlNumber"].Value.Trim(),
+                                        HICN = detailMatch.Groups["HICN"].Value.Trim(),
+                                        HICNErrorCode = detailMatch.Groups["HICNErrorCode"].Value.Trim(),
+                                        PatientDOB = detailMatch.Groups["PatientDOB"].Value.Trim(),
+                                        DOBErrorCode = detailMatch.Groups["DOBErrorCode"].Value.Trim(),
+                                        ProviderType0 = detailMatch.Groups["ProviderType0"].Value.Trim(),
+                                        FromDate0 = detailMatch.Groups["FromDate0"].Value.Trim(),
+                                        ThroughtDate0 = detailMatch.Groups["ThroughtDate0"].Value.Trim(),
+                                        DeleteIndicator0 = detailMatch.Groups["DeleteIndicator0"].Value.Trim(),
+                                        DiagnosisCode0 = detailMatch.Groups["DiagnosisCode0"].Value.Trim(),
+                                        DiagnosisError01 = detailMatch.Groups["DiagnosisError01"].Value.Trim(),
+                                        DiagnosisError02 = detailMatch.Groups["DiagnosisError02"].Value.Trim(),
+                                        ProviderType1 = detailMatch.Groups["ProviderType1"].Value.Trim(),
+                                        FromDate1 = detailMatch.Groups["FromDate1"].Value.Trim(),
+                                        ThroughtDate1 = detailMatch.Groups["ThroughtDate1"].Value.Trim(),
+                                        DeleteIndicator1 = detailMatch.Groups["DeleteIndicator1"].Value.Trim(),
+                                        DiagnosisCode1 = detailMatch.Groups["DiagnosisCode1"].Value.Trim(),
+                                        DiagnosisError11 = detailMatch.Groups["DiagnosisError11"].Value.Trim(),
+                                        DiagnosisError12 = detailMatch.Groups["DiagnosisError12"].Value.Trim(),
+                                        ProviderType2 = detailMatch.Groups["ProviderType2"].Value.Trim(),
+                                        FromDate2 = detailMatch.Groups["FromDate2"].Value.Trim(),
+                                        ThroughtDate2 = detailMatch.Groups["ThroughtDate2"].Value.Trim(),
+                                        DeleteIndicator2 = detailMatch.Groups["DeleteIndicator2"].Value.Trim(),
+                                        DiagnosisCode2 = detailMatch.Groups["DiagnosisCode2"].Value.Trim(),
+                                        DiagnosisError21 = detailMatch.Groups["DiagnosisError21"].Value.Trim(),
+                                        DiagnosisError22 = detailMatch.Groups["DiagnosisError22"].Value.Trim(),
+                                        ProviderType3 = detailMatch.Groups["ProviderType3"].Value.Trim(),
+                                        FromDate3 = detailMatch.Groups["FromDate3"].Value.Trim(),
+                                        ThroughtDate3 = detailMatch.Groups["ThroughtDate3"].Value.Trim(),
+                                        DeleteIndicator3 = detailMatch.Groups["DeleteIndicator3"].Value.Trim(),
+                                        DiagnosisCode3 = detailMatch.Groups["DiagnosisCode3"].Value.Trim(),
+                                        DiagnosisError31 = detailMatch.Groups["DiagnosisError31"].Value.Trim(),
+                                        DiagnosisError32 = detailMatch.Groups["DiagnosisError32"].Value.Trim(),
+                                        ProviderType4 = detailMatch.Groups["ProviderType4"].Value.Trim(),
+                                        FromDate4 = detailMatch.Groups["FromDate4"].Value.Trim(),
+                                        ThroughtDate4 = detailMatch.Groups["ThroughtDate4"].Value.Trim(),
+                                        DeleteIndicator4 = detailMatch.Groups["DeleteIndicator4"].Value.Trim(),
+                                        DiagnosisCode4 = detailMatch.Groups["DiagnosisCode4"].Value.Trim(),
+                                        DiagnosisError41 = detailMatch.Groups["DiagnosisError41"].Value.Trim(),
+                                        DiagnosisError42 = detailMatch.Groups["DiagnosisError42"].Value.Trim(),
+                                        ProviderType5 = detailMatch.Groups["ProviderType5"].Value.Trim(),
+                                        FromDate5 = detailMatch.Groups["FromDate5"].Value.Trim(),
+                                        ThroughtDate5 = detailMatch.Groups["ThroughtDate5"].Value.Trim(),
+                                        DeleteIndicator5 = detailMatch.Groups["DeleteIndicator5"].Value.Trim(),
+                                        DiagnosisCode5 = detailMatch.Groups["DiagnosisCode5"].Value.Trim(),
+                                        DiagnosisError51 = detailMatch.Groups["DiagnosisError51"].Value.Trim(),
+                                        DiagnosisError52 = detailMatch.Groups["DiagnosisError52"].Value.Trim(),
+                                        ProviderType6 = detailMatch.Groups["ProviderType6"].Value.Trim(),
+                                        FromDate6 = detailMatch.Groups["FromDate6"].Value.Trim(),
+                                        ThroughtDate6 = detailMatch.Groups["ThroughtDate6"].Value.Trim(),
+                                        DeleteIndicator6 = detailMatch.Groups["DeleteIndicator6"].Value.Trim(),
+                                        DiagnosisCode6 = detailMatch.Groups["DiagnosisCode6"].Value.Trim(),
+                                        DiagnosisError61 = detailMatch.Groups["DiagnosisError61"].Value.Trim(),
+                                        DiagnosisError62 = detailMatch.Groups["DiagnosisError62"].Value.Trim(),
+                                        ProviderType7 = detailMatch.Groups["ProviderType7"].Value.Trim(),
+                                        FromDate7 = detailMatch.Groups["FromDate7"].Value.Trim(),
+                                        ThroughtDate7 = detailMatch.Groups["ThroughtDate7"].Value.Trim(),
+                                        DeleteIndicator7 = detailMatch.Groups["DeleteIndicator7"].Value.Trim(),
+                                        DiagnosisCode7 = detailMatch.Groups["DiagnosisCode7"].Value.Trim(),
+                                        DiagnosisError71 = detailMatch.Groups["DiagnosisError71"].Value.Trim(),
+                                        DiagnosisError72 = detailMatch.Groups["DiagnosisError72"].Value.Trim(),
+                                        ProviderType8 = detailMatch.Groups["ProviderType8"].Value.Trim(),
+                                        FromDate8 = detailMatch.Groups["FromDate8"].Value.Trim(),
+                                        ThroughtDate8 = detailMatch.Groups["ThroughtDate8"].Value.Trim(),
+                                        DeleteIndicator8 = detailMatch.Groups["DeleteIndicator8"].Value.Trim(),
+                                        DiagnosisCode8 = detailMatch.Groups["DiagnosisCode8"].Value.Trim(),
+                                        DiagnosisError81 = detailMatch.Groups["DiagnosisError81"].Value.Trim(),
+                                        DiagnosisError82 = detailMatch.Groups["DiagnosisError82"].Value.Trim(),
+                                        ProviderType9 = detailMatch.Groups["ProviderType9"].Value.Trim(),
+                                        FromDate9 = detailMatch.Groups["FromDate9"].Value.Trim(),
+                                        ThroughtDate9 = detailMatch.Groups["ThroughtDate9"].Value.Trim(),
+                                        DeleteIndicator9 = detailMatch.Groups["DeleteIndicator9"].Value.Trim(),
+                                        DiagnosisCode9 = detailMatch.Groups["DiagnosisCode9"].Value.Trim(),
+                                        DiagnosisError91 = detailMatch.Groups["DiagnosisError91"].Value.Trim(),
+                                        DiagnosisError92 = detailMatch.Groups["DiagnosisError92"].Value.Trim(),
+                                        CorrectedHICN = detailMatch.Groups["CorrectedHICN"].Value.Trim()
+                                    };
+                                    details.Add(detail);
+                                }
+                                else if (batchTrailerMatch.Success)
+                                {
+                                    batches.Last().TotalDetails = batchTrailerMatch.Groups["TotalDetails"].Value.Trim();
+                                }
+                                else if (fileTrailerMatch.Success)
+                                {
+                                    processingFile.TotalBatches = fileTrailerMatch.Groups["TotalBatches"].Value.Trim();
+                                }
+                                if (details.Count >= 1000)
+                                {
+                                    RapsUtility.SaveRapsBatch(ref details);
+                                }
+                                lineNumber++;
+                            }
+                            context.RapsBatches.AddRange(batches);
+                            context.RapsDetails.AddRange(details);
+                            context.SaveChanges();
+                        }
+
+                        if (File.Exists(Path.Combine(RapsArchiveFolder, fi.Name))) File.Delete(Path.Combine(RapsArchiveFolder, fi.Name));
+                        fi.MoveTo(Path.Combine(RapsArchiveFolder, fi.Name));
+                    });
+                }
+                catch (Exception ex)
+                {
+                    sbLog.AppendLine(ex.Message);
+                }
+                finally
+                {
+                    sbLog.AppendLine("End time:" + DateTime.Now.ToString());
+                    File.AppendAllText(Path.Combine(RapsLogFolder, "Premium820Log.txt"), sbLog.ToString());
+                }
+            }
+        }
+        private void ParseNCPDP()
+        {
+            //string inputPath = tbResponseSourceFolder.Text;
+            //string outputPath = tbResponseArchiveFolder.Text;
+            //DirectoryInfo di = new DirectoryInfo(inputPath);
+            //foreach (FileInfo fi in di.GetFiles())
+            //{
+            //    Post_NCPDPParser parser = new ParseData.Post_NCPDPParser(fi.FullName);
+            //    parser.ParseDetail();
+            //    if (File.Exists(Path.Combine(outputPath, fi.Name))) File.Delete(Path.Combine(outputPath, fi.Name));
+            //    fi.MoveTo(Path.Combine(outputPath, fi.Name));
+
+            //}
         }
         private void ParseCms999()
         {
@@ -1229,6 +1434,224 @@ namespace EncPro
             sbLog.AppendLine("End time:" + DateTime.Now.ToString());
             File.AppendAllText(Path.Combine(LogFolder, "LoadTP837sLog.txt"), sbLog.ToString());
             MessageBox.Show("Load Trading Partner 837s completed");
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbRapsFileSource.Text))
+            {
+            }
+            if (!string.IsNullOrEmpty(tbRapsFileSource.Text) && File.Exists(tbRapsFileSource.Text))
+            {
+                string s = File.ReadAllText(tbRapsFileSource.Text).Replace("\r", "");
+                string[] rapLines = s.Split('\n');
+                GlobalVariables.rapsRecords = new List<RapsRecord>();
+                foreach (string line in rapLines)
+                {
+                    string[] segments = line.Split(',');
+                    if (segments.Length < 7) continue;
+                    RapsRecord record = new RapsRecord
+                    {
+                        PatientHICN = segments[0],
+                        PatientDOB = segments[1],
+                        ProviderType = segments[2],
+                        FromDate = segments[3],
+                        ThroughtDate = segments[4],
+                        DeleteIndicator = segments[5],
+                        DiagnosisCode = segments[6]
+                    };
+                    GlobalVariables.rapsRecords.Add(record);
+                }
+                dgRapsSource.DataSource = GlobalVariables.rapsRecords;
+                dgRapsSource.Columns[0].HeaderText = "Patient HICN";
+                dgRapsSource.Columns[1].HeaderText = "Patient DOB";
+                dgRapsSource.Columns[2].HeaderText = "Provider Type";
+                dgRapsSource.Columns[3].HeaderText = "From Date";
+                dgRapsSource.Columns[4].HeaderText = "Throught Date";
+                dgRapsSource.Columns[5].HeaderText = "Delete Indicator";
+                dgRapsSource.Columns[6].HeaderText = "Diagnosis Code";
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (GlobalVariables.rapsRecords != null && GlobalVariables.rapsRecords.Count > 0)
+            {
+                string ProductionFlag = "PROD";
+                if (cbRapsFlag.Text == "Test") ProductionFlag = "TEST";
+                StringBuilder sb = new StringBuilder();
+                string ICN = (100 + DateTime.Today.DayOfYear).ToString() + DateTime.Now.ToString("HHssmmf");
+                sb.Append("AAA");
+                sb.Append("999999");
+                sb.Append(ICN);
+                sb.Append(DateTime.Today.ToString("yyyyMMdd"));
+                sb.Append(ProductionFlag);
+                sb.AppendLine("".PadLeft(481, ' '));
+                sb.Append("BBB");
+                sb.Append("0000001");
+                sb.Append("H0504");
+                sb.AppendLine("".PadLeft(497, ' '));
+                int totalDetails = 1;
+                string patientHICN = "";
+                int clusterCount = 0;
+                foreach (RapsRecord record in GlobalVariables.rapsRecords.OrderBy(x => x.PatientHICN))
+                {
+                    if (totalDetails == 1)
+                    {
+                        sb.Append("CCC");
+                        sb.Append(totalDetails.ToString().PadLeft(7, '0'));
+                        sb.Append("   ");
+                        sb.Append("".PadLeft(40, ' '));
+                        sb.Append(record.PatientHICN.PadRight(25, ' '));
+                        sb.Append("   ");
+                        sb.Append(record.PatientDOB);
+                        sb.Append("   ");
+                        sb.Append(record.ProviderType.PadLeft(2, '0'));
+                        sb.Append(record.FromDate);
+                        sb.Append(record.ThroughtDate);
+                        sb.Append(record.DeleteIndicator.PadLeft(1, ' '));
+                        sb.Append(record.DiagnosisCode.Replace(".", "").PadRight(7, ' '));
+                        sb.Append("      ");
+                        totalDetails++;
+                    }
+                    else if (patientHICN != record.PatientHICN || clusterCount >= 10)
+                    {
+                        clusterCount = 0;
+                        sb.AppendLine("".PadLeft(100, ' '));
+                        sb.Append("CCC");
+                        sb.Append(totalDetails.ToString().PadLeft(7, '0'));
+                        sb.Append("   ");
+                        sb.Append("".PadLeft(40, ' '));
+                        sb.Append(record.PatientHICN.PadRight(25, ' '));
+                        sb.Append("   ");
+                        sb.Append(record.PatientDOB);
+                        sb.Append("   ");
+                        sb.Append(record.ProviderType.PadLeft(2, '0'));
+                        sb.Append(record.FromDate);
+                        sb.Append(record.ThroughtDate);
+                        sb.Append(record.DeleteIndicator.PadLeft(1, ' '));
+                        sb.Append(record.DiagnosisCode.Replace(".", "").PadRight(7, ' '));
+                        sb.Append("      ");
+                        totalDetails++;
+                    }
+                    else
+                    {
+                        sb.Append(record.ProviderType.PadLeft(2, '0'));
+                        sb.Append(record.FromDate);
+                        sb.Append(record.ThroughtDate);
+                        sb.Append(record.DeleteIndicator.PadLeft(1, ' '));
+                        sb.Append(record.DiagnosisCode.Replace(".", "").PadRight(7, ' '));
+                        sb.Append("      ");
+                    }
+
+                    clusterCount++;
+                    patientHICN = record.PatientHICN;
+                }
+                sb.AppendLine("".PadLeft(100, ' '));
+                sb.Append("YYY");
+                sb.Append("0000001");
+                sb.Append("H0504");
+                sb.Append(totalDetails.ToString().PadLeft(7, '0'));
+                sb.AppendLine("".PadLeft(490, ' '));
+                sb.Append("ZZZ");
+                sb.Append("999999");
+                sb.Append(ICN);
+                sb.Append("0000001");
+                sb.AppendLine("".PadLeft(486, ' '));
+                File.WriteAllText(Path.Combine(tbRapsDestination.Text, "RapsNamingConvention"), sb.ToString());
+                MessageBox.Show("Generate Raps file completed!");
+            }
+        }
+
+        private void btChartReviewSource_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbChartReviewSource.Text))
+            {
+            }
+            if (!string.IsNullOrEmpty(tbChartReviewSource.Text) && File.Exists(tbChartReviewSource.Text))
+            {
+                string s = File.ReadAllText(tbChartReviewSource.Text).Replace("\r", "");
+                string[] chartLines = s.Split('\n');
+                GlobalVariables.chartReviewRecords = new List<ChartReviewRecord>();
+                foreach (string line in chartLines)
+                {
+                    string[] segments = line.Split(',');
+                    if (segments.Length < 7) continue;
+                    ChartReviewRecord record = new ChartReviewRecord
+                    {
+                        ClaimType = segments[0],
+                        ProviderNPI = segments[1],
+                        MemberHICN = segments[2],
+                        MemberDOB = segments[3],
+                        DosFromDate = segments[4],
+                        DosToDate = segments[5],
+                        DiagnosisCode = segments[6],
+                        DeleteIndicator = segments[7],
+                        ProcedureCode = segments[8],
+                        RevenueCode = segments[9]
+                    };
+                    GlobalVariables.chartReviewRecords.Add(record);
+                }
+                dgChartReviewSource.DataSource = GlobalVariables.chartReviewRecords;
+                dgChartReviewSource.Columns[0].HeaderText = "ClaimType";
+                dgChartReviewSource.Columns[1].HeaderText = "ProviderNPI";
+                dgChartReviewSource.Columns[2].HeaderText = "MemberHICN";
+                dgChartReviewSource.Columns[3].HeaderText = "MemberDOB";
+                dgChartReviewSource.Columns[4].HeaderText = "DosFromDate";
+                dgChartReviewSource.Columns[5].HeaderText = "DosToDate";
+                dgChartReviewSource.Columns[6].HeaderText = "DiagnosisCode";
+                dgChartReviewSource.Columns[7].HeaderText = "DeleteIndicator";
+                dgChartReviewSource.Columns[8].HeaderText = "ProcedureCode";
+                dgChartReviewSource.Columns[9].HeaderText = "RevenueCode";
+            }
+        }
+
+        private void btChartReviewGenerate_Click(object sender, EventArgs e)
+        {
+            if (GlobalVariables.chartReviewRecords == null) return;
+            if (GlobalVariables.chartReviewRecords.Count == 0) return;
+            if (!Directory.Exists(tbChartReviewDestination.Text)) Directory.CreateDirectory(tbChartReviewDestination.Text);
+            string ProductionFlag = "P";
+            if (cbChartReviewFlag.Text == "Test") ProductionFlag = "T";
+            StringBuilder sb = new StringBuilder();
+            for (int page = 0; page <= GlobalVariables.chartReviewRecords.Count(x => x.ClaimType == "P") / 5000; page++)
+            {
+                //837P header
+                sb.Clear();
+                int SegmentCount = 0;
+                string icn = "";
+                int HLID = 0, HL_Subscriber_Parent_ID = 0;
+                sb.Append(ChartReviewUtility.GetChartReview837PHeader(ProductionFlag, ref SegmentCount, ref icn));
+                int i = 1;
+                foreach (ChartReviewRecord record in GlobalVariables.chartReviewRecords.Where(x => x.ClaimType == "P").OrderBy(x => x.ProviderNPI).Skip(page * 5000).Take(5000))
+                {
+                    string ClaimId = "CRP" + DateTime.Today.ToString("yyMMdd") + page.ToString().PadLeft(3, '0') + i.ToString().PadLeft(4, '0');
+                    sb.Append(ChartReviewUtility.GetChartReview837PClaimSegments(ClaimId, record, ref SegmentCount, ref HLID, ref HL_Subscriber_Parent_ID));
+                    i++;
+                }
+                //837P trailer
+                sb.Append(ChartReviewUtility.GetChartReview837PTrailer(ref SegmentCount, ref icn));
+                File.WriteAllText(Path.Combine(tbChartReviewDestination.Text, "ChartReviewNamingConvention_837P_" + page.ToString().PadLeft(3, '0')), sb.ToString());
+            }
+            for (int page = 0; page <= GlobalVariables.chartReviewRecords.Count(x => x.ClaimType == "I") / 5000; page++)
+            {
+                //837I header
+                sb.Clear();
+                int SegmentCount = 0;
+                string icn = "";
+                int HLID = 0, HL_Subscriber_Parent_ID = 0;
+                sb.Append(ChartReviewUtility.GetChartReview837IHeader("P", ref SegmentCount, ref icn));
+                int i = 1;
+                foreach (ChartReviewRecord record in GlobalVariables.chartReviewRecords.Where(x => x.ClaimType == "I").OrderBy(x => x.ProviderNPI).Skip(page * 5000).Take(5000))
+                {
+                    string ClaimId = "CRI" + DateTime.Today.ToString("yyMMdd") + page.ToString().PadLeft(3, '0') + i.ToString().PadLeft(4, '0');
+                    sb.Append(ChartReviewUtility.GetChartReview837IClaimSegments(ClaimId, record, ref SegmentCount, ref HLID, ref HL_Subscriber_Parent_ID));
+                    i++;
+                }
+                //837I trailer
+                sb.Append(ChartReviewUtility.GetChartReview837ITrailer(ref SegmentCount, ref icn));
+                File.WriteAllText(Path.Combine(tbChartReviewDestination.Text, "ChartReviewNamingConvention_837I_" + page.ToString().PadLeft(3, '0')), sb.ToString());
+            }
+
         }
     }
 }

@@ -88,6 +88,7 @@
     <Compile Include="Processes\ParseData\Process834.cs" />
     <Compile Include="Processes\ParseData\Process835.cs" />
     <Compile Include="Processes\ParseData\Process837.cs" />
+    <Compile Include="Processes\ParseData\Regexes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="EncMain.resx">

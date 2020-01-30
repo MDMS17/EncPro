@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Meditrac");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Trading Partner");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Trading Partners", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Meditrac");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Trading Partner");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Trading Partners", new System.Windows.Forms.TreeNode[] {
+            treeNode4,
+            treeNode5});
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EncMain));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.lbRunningStatus = new System.Windows.Forms.ToolStripLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
@@ -96,6 +97,32 @@
             this.label8 = new System.Windows.Forms.Label();
             this.cbResponseFile = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.cbRapsFlag = new System.Windows.Forms.ComboBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.tbRapsDestination = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.tbRapsFileSource = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.dgRapsSource = new System.Windows.Forms.DataGridView();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.cbChartReviewFlag = new System.Windows.Forms.ComboBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.btChartReviewGenerate = new System.Windows.Forms.Button();
+            this.btChartReviewDestination = new System.Windows.Forms.Button();
+            this.tbChartReviewDestination = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.btChartReviewSource = new System.Windows.Forms.Button();
+            this.tbChartReviewSource = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.dgChartReviewSource = new System.Windows.Forms.DataGridView();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -115,6 +142,18 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.tabPage6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgRapsSource)).BeginInit();
+            this.tabPage7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgChartReviewSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -176,14 +215,14 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "Node2";
-            treeNode1.Text = "Meditrac";
-            treeNode2.Name = "Node3";
-            treeNode2.Text = "Trading Partner";
-            treeNode3.Name = "Node0";
-            treeNode3.Text = "Trading Partners";
+            treeNode4.Name = "Node2";
+            treeNode4.Text = "Meditrac";
+            treeNode5.Name = "Node3";
+            treeNode5.Text = "Trading Partner";
+            treeNode6.Name = "Node0";
+            treeNode6.Text = "Trading Partners";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
+            treeNode6});
             this.treeView1.Size = new System.Drawing.Size(257, 934);
             this.treeView1.TabIndex = 0;
             // 
@@ -194,6 +233,8 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -355,6 +396,7 @@
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Position";
             this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(65, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -791,7 +833,8 @@
             "DHCS EVR",
             "835",
             "820",
-            "834"});
+            "NCPDP",
+            "Raps"});
             this.cbResponseFile.Location = new System.Drawing.Point(273, 153);
             this.cbResponseFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbResponseFile.Name = "cbResponseFile";
@@ -807,6 +850,310 @@
             this.label7.Size = new System.Drawing.Size(138, 17);
             this.label7.TabIndex = 0;
             this.label7.Text = "Response File Type:";
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.splitContainer3);
+            this.tabPage6.Location = new System.Drawing.Point(4, 25);
+            this.tabPage6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(1397, 905);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "Raps";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.cbRapsFlag);
+            this.splitContainer3.Panel1.Controls.Add(this.label18);
+            this.splitContainer3.Panel1.Controls.Add(this.button7);
+            this.splitContainer3.Panel1.Controls.Add(this.button6);
+            this.splitContainer3.Panel1.Controls.Add(this.tbRapsDestination);
+            this.splitContainer3.Panel1.Controls.Add(this.label15);
+            this.splitContainer3.Panel1.Controls.Add(this.button3);
+            this.splitContainer3.Panel1.Controls.Add(this.tbRapsFileSource);
+            this.splitContainer3.Panel1.Controls.Add(this.label13);
+            this.splitContainer3.Panel1.Controls.Add(this.textBox1);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.dgRapsSource);
+            this.splitContainer3.Size = new System.Drawing.Size(1397, 905);
+            this.splitContainer3.SplitterDistance = 283;
+            this.splitContainer3.SplitterWidth = 5;
+            this.splitContainer3.TabIndex = 0;
+            // 
+            // cbRapsFlag
+            // 
+            this.cbRapsFlag.FormattingEnabled = true;
+            this.cbRapsFlag.Items.AddRange(new object[] {
+            "Production",
+            "Test"});
+            this.cbRapsFlag.Location = new System.Drawing.Point(352, 178);
+            this.cbRapsFlag.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbRapsFlag.Name = "cbRapsFlag";
+            this.cbRapsFlag.Size = new System.Drawing.Size(132, 24);
+            this.cbRapsFlag.TabIndex = 9;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(304, 182);
+            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(39, 17);
+            this.label18.TabIndex = 8;
+            this.label18.Text = "Flag:";
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(493, 176);
+            this.button7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(195, 28);
+            this.button7.TabIndex = 7;
+            this.button7.Text = "Generate Raps File...Go";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(1283, 91);
+            this.button6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(100, 28);
+            this.button6.TabIndex = 6;
+            this.button6.Text = "Browse";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // tbRapsDestination
+            // 
+            this.tbRapsDestination.Location = new System.Drawing.Point(449, 95);
+            this.tbRapsDestination.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbRapsDestination.Name = "tbRapsDestination";
+            this.tbRapsDestination.Size = new System.Drawing.Size(816, 22);
+            this.tbRapsDestination.TabIndex = 5;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(291, 98);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(164, 17);
+            this.label15.TabIndex = 4;
+            this.label15.Text = "Raps Destination Folder:";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(1283, 23);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(100, 28);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "Browse";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // tbRapsFileSource
+            // 
+            this.tbRapsFileSource.Location = new System.Drawing.Point(449, 26);
+            this.tbRapsFileSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbRapsFileSource.Name = "tbRapsFileSource";
+            this.tbRapsFileSource.Size = new System.Drawing.Size(816, 22);
+            this.tbRapsFileSource.TabIndex = 2;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(325, 30);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(120, 17);
+            this.label13.TabIndex = 1;
+            this.label13.Text = "Raps Source File:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(39, 27);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(244, 229);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.Text = resources.GetString("textBox1.Text");
+            // 
+            // dgRapsSource
+            // 
+            this.dgRapsSource.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgRapsSource.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgRapsSource.Location = new System.Drawing.Point(0, 0);
+            this.dgRapsSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgRapsSource.Name = "dgRapsSource";
+            this.dgRapsSource.RowHeadersWidth = 51;
+            this.dgRapsSource.Size = new System.Drawing.Size(1397, 617);
+            this.dgRapsSource.TabIndex = 0;
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.splitContainer4);
+            this.tabPage7.Location = new System.Drawing.Point(4, 25);
+            this.tabPage7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(1397, 905);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "ChartReview";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.cbChartReviewFlag);
+            this.splitContainer4.Panel1.Controls.Add(this.label17);
+            this.splitContainer4.Panel1.Controls.Add(this.btChartReviewGenerate);
+            this.splitContainer4.Panel1.Controls.Add(this.btChartReviewDestination);
+            this.splitContainer4.Panel1.Controls.Add(this.tbChartReviewDestination);
+            this.splitContainer4.Panel1.Controls.Add(this.label16);
+            this.splitContainer4.Panel1.Controls.Add(this.btChartReviewSource);
+            this.splitContainer4.Panel1.Controls.Add(this.tbChartReviewSource);
+            this.splitContainer4.Panel1.Controls.Add(this.label14);
+            this.splitContainer4.Panel1.Controls.Add(this.textBox2);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.dgChartReviewSource);
+            this.splitContainer4.Size = new System.Drawing.Size(1397, 905);
+            this.splitContainer4.SplitterDistance = 294;
+            this.splitContainer4.SplitterWidth = 5;
+            this.splitContainer4.TabIndex = 0;
+            // 
+            // cbChartReviewFlag
+            // 
+            this.cbChartReviewFlag.FormattingEnabled = true;
+            this.cbChartReviewFlag.Items.AddRange(new object[] {
+            "Production",
+            "Test"});
+            this.cbChartReviewFlag.Location = new System.Drawing.Point(309, 160);
+            this.cbChartReviewFlag.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbChartReviewFlag.Name = "cbChartReviewFlag";
+            this.cbChartReviewFlag.Size = new System.Drawing.Size(140, 24);
+            this.cbChartReviewFlag.TabIndex = 9;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(261, 164);
+            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(39, 17);
+            this.label17.TabIndex = 8;
+            this.label17.Text = "Flag:";
+            // 
+            // btChartReviewGenerate
+            // 
+            this.btChartReviewGenerate.Location = new System.Drawing.Point(469, 158);
+            this.btChartReviewGenerate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btChartReviewGenerate.Name = "btChartReviewGenerate";
+            this.btChartReviewGenerate.Size = new System.Drawing.Size(240, 28);
+            this.btChartReviewGenerate.TabIndex = 7;
+            this.btChartReviewGenerate.Text = "Generate Chart Review Files...Go";
+            this.btChartReviewGenerate.UseVisualStyleBackColor = true;
+            this.btChartReviewGenerate.Click += new System.EventHandler(this.btChartReviewGenerate_Click);
+            // 
+            // btChartReviewDestination
+            // 
+            this.btChartReviewDestination.Location = new System.Drawing.Point(1283, 87);
+            this.btChartReviewDestination.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btChartReviewDestination.Name = "btChartReviewDestination";
+            this.btChartReviewDestination.Size = new System.Drawing.Size(100, 28);
+            this.btChartReviewDestination.TabIndex = 6;
+            this.btChartReviewDestination.Text = "Browse";
+            this.btChartReviewDestination.UseVisualStyleBackColor = true;
+            // 
+            // tbChartReviewDestination
+            // 
+            this.tbChartReviewDestination.Location = new System.Drawing.Point(469, 90);
+            this.tbChartReviewDestination.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbChartReviewDestination.Name = "tbChartReviewDestination";
+            this.tbChartReviewDestination.Size = new System.Drawing.Size(777, 22);
+            this.tbChartReviewDestination.TabIndex = 5;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(261, 94);
+            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(210, 17);
+            this.label16.TabIndex = 4;
+            this.label16.Text = "ChartReview Destination Folder:";
+            // 
+            // btChartReviewSource
+            // 
+            this.btChartReviewSource.Location = new System.Drawing.Point(1283, 36);
+            this.btChartReviewSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btChartReviewSource.Name = "btChartReviewSource";
+            this.btChartReviewSource.Size = new System.Drawing.Size(100, 28);
+            this.btChartReviewSource.TabIndex = 3;
+            this.btChartReviewSource.Text = "Browse";
+            this.btChartReviewSource.UseVisualStyleBackColor = true;
+            this.btChartReviewSource.Click += new System.EventHandler(this.btChartReviewSource_Click);
+            // 
+            // tbChartReviewSource
+            // 
+            this.tbChartReviewSource.Location = new System.Drawing.Point(469, 38);
+            this.tbChartReviewSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbChartReviewSource.Name = "tbChartReviewSource";
+            this.tbChartReviewSource.Size = new System.Drawing.Size(777, 22);
+            this.tbChartReviewSource.TabIndex = 2;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(261, 42);
+            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(166, 17);
+            this.label14.TabIndex = 1;
+            this.label14.Text = "ChartReview Source File:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(48, 38);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(187, 201);
+            this.textBox2.TabIndex = 0;
+            this.textBox2.Text = "ChartReview Data Source, .csv\r\nClaimType\r\nProviderNPI\r\nMemberHICN\r\nMemberDOB\r\nDos" +
+    "FromDate\r\nDosToDate\r\nDiagnosisCode\r\nDelete indicator\r\nProcedureCode\r\nRevenueCode" +
+    "";
+            // 
+            // dgChartReviewSource
+            // 
+            this.dgChartReviewSource.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgChartReviewSource.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgChartReviewSource.Location = new System.Drawing.Point(0, 0);
+            this.dgChartReviewSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgChartReviewSource.Name = "dgChartReviewSource";
+            this.dgChartReviewSource.RowHeadersWidth = 51;
+            this.dgChartReviewSource.Size = new System.Drawing.Size(1397, 606);
+            this.dgChartReviewSource.TabIndex = 0;
             // 
             // EncMain
             // 
@@ -845,6 +1192,20 @@
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            this.tabPage6.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel1.PerformLayout();
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgRapsSource)).EndInit();
+            this.tabPage7.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel1.PerformLayout();
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgChartReviewSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -916,5 +1277,31 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TextBox tbRapsDestination;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox tbRapsFileSource;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.DataGridView dgRapsSource;
+        private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.Button btChartReviewGenerate;
+        private System.Windows.Forms.Button btChartReviewDestination;
+        private System.Windows.Forms.TextBox tbChartReviewDestination;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button btChartReviewSource;
+        private System.Windows.Forms.TextBox tbChartReviewSource;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.DataGridView dgChartReviewSource;
+        private System.Windows.Forms.ComboBox cbRapsFlag;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.ComboBox cbChartReviewFlag;
+        private System.Windows.Forms.Label label17;
     }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EncModel.Log;
+using EncModel.Raps;
+using EncModel.ChartReview;
 
 namespace EncPro
 {
@@ -18,5 +20,7 @@ namespace EncPro
         public static int TotalCMCP { get; set; }
         public static int TotalDHCSI { get; set; }
         public static int TotalDHCSP { get; set; }
+        public static List<RapsRecord> rapsRecords { get; set; }
+        public static List<ChartReviewRecord> chartReviewRecords { get; set; }
     }
 }

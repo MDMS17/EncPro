@@ -68,6 +68,8 @@
     <Compile Include="999\999File.cs" />
     <Compile Include="999\999Transaction.cs" />
     <Compile Include="999\Cms999Context.cs" />
+    <Compile Include="ChartReview\ChartReivewModel.cs" />
+    <Compile Include="ChartReview\ChartReviewUtility.cs" />
     <Compile Include="DHCS\DHCSContext.cs" />
     <Compile Include="DHCS\DHCSEncounter.cs" />
     <Compile Include="DHCS\DHCSEncounterResponse.cs" />
@@ -96,6 +98,9 @@
     <Compile Include="Misc\DupLineP.cs" />
     <Compile Include="Misc\MemberDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Raps\RapsContext.cs" />
+    <Compile Include="Raps\RapsModel.cs" />
+    <Compile Include="Raps\RapsUtility.cs" />
     <Compile Include="Subcache\SubcacheContext.cs" />
     <Compile Include="Subcache\SubcacheModel.cs" />
     <Compile Include="Subcache\SubcacheUtility.cs" />
@@ -169,7 +174,7 @@
     <Content Include="SQL\CMSMAO004.sql" />
     <Content Include="SQL\DHCS.sql" />
     <Content Include="SQL\Finance835.sql" />
-    <Content Include="SQL\Member834.txt" />
+    <Content Include="SQL\Member834.sql" />
     <Content Include="SQL\Pah42.sql" />
     <Content Include="SQL\Premium820.sql" />
     <Content Include="SQL\Subcache.sql" />
