@@ -13,7 +13,7 @@ namespace EncPro
 {
     public static partial class ExportToDHCS
     {
-        public static void Export837D(string CountyCode, string flag)
+        public static async Task Export837D(string CountyCode, string flag)
         {
             string DestinationFolder = ConfigurationManager.AppSettings["DestinationFolder"];
             SubcacheContext context = new SubcacheContext();
@@ -31,28 +31,24 @@ namespace EncPro
                 List<ClaimHeader> headers = context.ClaimHeaders.Where(x => x.ExportType == "DDHCS" + CountyCode).OrderBy(x => x.ID).Skip(i * 5000).Take(5000).ToList();
                 if (headers.Count > 0)
                 {
-                    context.Database.ExecuteSqlCommand("truncate table Sub_History.ClaimTempHost");
-                    List<ClaimTempHost> tempclaims = new List<ClaimTempHost>();
-                    foreach (var header in headers) tempclaims.Add(new ClaimTempHost { ClaimID = header.ClaimID });
-                    context.ClaimTempHost.AddRange(tempclaims.Distinct());
-                    context.SaveChanges();
-                    List<ClaimCAS> cases = context.Database.SqlQuery<ClaimCAS>("select * from Sub_History.ClaimCAS where ClaimID in (select ClaimID from Sub_history.ClaimTempHost)").ToList();
-                    List<ClaimCRC> crcs = context.Database.SqlQuery<ClaimCRC>("select * from Sub_history.ClaimCRCs where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ClaimHI> his = context.Database.SqlQuery<ClaimHI>("select * from Sub_History.ClaimHIs where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ClaimK3> k3s = context.Database.SqlQuery<ClaimK3>("select * from Sub_History.ClaimK3s where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ClaimLineFRM> frms = context.Database.SqlQuery<ClaimLineFRM>("select * from Sub_History.ClaimLineFRMs where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ClaimLineLQ> lqs = context.Database.SqlQuery<ClaimLineLQ>("select * from Sub_History.ClaimLineLQs where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ClaimLineMEA> meas = context.Database.SqlQuery<ClaimLineMEA>("select * from Sub_History.ClaimLineMEAs where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ClaimLineSVD> svds = context.Database.SqlQuery<ClaimLineSVD>("select * from Sub_History.ClaimLineSVDs where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ClaimNte> notes = context.Database.SqlQuery<ClaimNte>("select * from Sub_History.ClaimNtes where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ClaimPatient> patients = context.Database.SqlQuery<ClaimPatient>("select * from Sub_History.ClaimPatients where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ClaimProvider> providers = context.Database.SqlQuery<ClaimProvider>("select * from Sub_History.ClaimProviders where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ClaimPWK> pwks = context.Database.SqlQuery<ClaimPWK>("select * from Sub_History.ClaimPWKs where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ClaimSBR> sbrs = context.Database.SqlQuery<ClaimSBR>("select * from Sub_History.ClaimSBRs where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ClaimSecondaryIdentification> secondaryidentifications = context.Database.SqlQuery<ClaimSecondaryIdentification>("select * from Sub_History.ClaimSecondaryIdentifications where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ProviderContact> providercontacts = context.Database.SqlQuery<ProviderContact>("select * from Sub_History.ProviderContacts where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ServiceLine> servicelines = context.Database.SqlQuery<ServiceLine>("select * from Sub_History.ServiceLines where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
-                    List<ToothStatus> toothStatuses = context.Database.SqlQuery<ToothStatus>("select * from Sub_History.ToothStatus where ClaimID in (select ClaimID from Sub_History.ClaimTempHost)").ToList();
+                    List<string> ClaimIds = headers.Select(x => x.ClaimID).ToList();
+                    List<ClaimCAS> cases = await context.ClaimCAS.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ClaimCRC> crcs = await context.ClaimCRCs.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ClaimHI> his = await context.ClaimHIs.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ClaimK3> k3s = await context.ClaimK3s.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ClaimLineFRM> frms = await context.ClaimLineFRMs.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ClaimLineLQ> lqs = await context.ClaimLineLQs.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ClaimLineMEA> meas = await context.ClaimLineMEAs.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ClaimLineSVD> svds = await context.ClaimLineSVDs.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ClaimNte> notes = await context.ClaimNtes.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ClaimPatient> patients = await context.ClaimPatients.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ClaimProvider> providers = await context.ClaimProviders.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ClaimPWK> pwks = await context.ClaimPWKs.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ClaimSBR> sbrs = await context.ClaimSBRs.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ClaimSecondaryIdentification> secondaryidentifications = await context.ClaimSecondaryIdentifications.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ProviderContact> providercontacts = await context.ProviderContacts.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ServiceLine> servicelines = await context.ServiceLines.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
+                    List<ToothStatus> toothStatuses = await context.ToothStatus.Where(x => ClaimIds.Contains(x.ClaimID)).ToListAsync();
                     string transactionDate = DateTime.Today.ToString("yyyyMMdd");
                     string transactionTime = DateTime.Now.ToString("HHmm");
                     string icn = (DateTime.Today.DayOfYear + 100).ToString() + DateTime.Now.ToString("HHmmssfff").Substring(1, 6);

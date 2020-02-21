@@ -21,6 +21,7 @@ using System.Data.SqlClient;
 using EncModel._835;
 using EncModel._999;
 using EncModel._277CA;
+using EncModel.MAO001;
 using EncModel.MAO2;
 using EncModel.Premium820;
 using EncModel.M834;
@@ -61,6 +62,20 @@ namespace EncPro
         }
         private async Task btLoadData_ClickAsync()
         {
+            if (LogUtility.GetCurrentLoadStatus() == "1")
+            {
+                MessageBox.Show("Data loading is running by other user, no concorrent data loading can be allowed");
+                return;
+            }
+            LoadLog log = new LoadLog
+            {
+                StartDate = dateTimePicker1.Value,
+                EndDate = dateTimePicker2.Value,
+                RunDate = DateTime.Now,
+                LoadedBy = Environment.UserName,
+                LoadStatus = "1"
+            };
+            await LogUtility.SaveLog(log);
             lbRunningStatus.Text = "Loading data get counts...";
             btLoadData.Enabled = false;
             Application.DoEvents();
@@ -135,20 +150,14 @@ namespace EncPro
             //    toolStripProgressBar1.Value += 1;
             //    Application.DoEvents();
             //}
-            LoadLog log = new LoadLog
-            {
-                StartDate = dateTimePicker1.Value,
-                EndDate = dateTimePicker2.Value,
-                RunDate = DateTime.Now,
-                CCI_Institutional = GlobalVariables.TotalCCII,
-                CCI_Professional = GlobalVariables.TotalCCIP,
-                CMC_Institutional = GlobalVariables.TotalCMCI,
-                CMC_Professional = GlobalVariables.TotalCMCP,
-                DHCS_Institutional = GlobalVariables.TotalDHCSI,
-                DHCS_Professional = GlobalVariables.TotalDHCSP,
-                LoadedBy = Environment.UserName
-            };
-            await LogUtility.SaveLog(log);
+            log.CCI_Institutional = GlobalVariables.TotalCCII;
+            log.CCI_Professional = GlobalVariables.TotalCCIP;
+            log.CMC_Institutional = GlobalVariables.TotalCMCI;
+            log.CMC_Professional = GlobalVariables.TotalCMCP;
+            log.DHCS_Institutional = GlobalVariables.TotalDHCSI;
+            log.DHCS_Professional = GlobalVariables.TotalDHCSP;
+            log.LoadStatus = "0";
+            await LogUtility.UpdateLog(log);
             lbRunningStatus.Text = "Loading data for" + startDate + " to " + endDate + " done!";
             btLoadData.Enabled = true;
         }
@@ -390,6 +399,9 @@ namespace EncPro
                     break;
                 case "CMS 277CA":
                     ParseCms277CA();
+                    break;
+                case "CMS MAO001":
+                    ParseCmsMao1();
                     break;
                 case "CMS MAO002":
                     ParseCmsMao2();
@@ -782,6 +794,93 @@ namespace EncPro
                     File.AppendAllText(Path.Combine(_277CaLogFolder, "277CALog.txt"), sbLog.ToString());
                 }
 
+            }
+        }
+        private void ParseCmsMao1()
+        {
+            string Mao001LogFolder = ConfigurationManager.AppSettings["LogFolder"];
+            string Mao001OriginalFolder = tbResponseSourceFolder.Text;
+            List<string> newFiles = Directory.GetFiles(Mao001OriginalFolder).Where(x => x.EndsWith("001_DATDUP_FILE.RPT")).Select(x => Path.GetFileName(x)).ToList().Except(Mao001Utility.GetProcessedFiles()).ToList();
+            if (!Directory.Exists(Mao001LogFolder)) Directory.CreateDirectory(Mao001LogFolder);
+            //processing dhcs response files
+            if (newFiles.Count > 0)
+            {
+                System.Text.StringBuilder sbLog = new StringBuilder();
+                sbLog.AppendLine("Start time:" + DateTime.Now.ToString());
+                try
+                {
+                    Parallel.ForEach(newFiles, new ParallelOptions { MaxDegreeOfParallelism = 4 }, (newFile) => {
+                        List<Mao001Detail> details = new List<Mao001Detail>();
+                        using (var context = new Mao001Context())
+                        {
+                            Console.WriteLine("Processing file " + newFile + " now...");
+                            sbLog.AppendLine("Processing file " + newFile + " now...");
+                            string sMao001 = File.ReadAllText(Path.Combine(Mao001OriginalFolder, newFile)).Replace("\r", "");
+                            string[] sMao001Lines = sMao001.Split('\n');
+                            sMao001 = null;
+                            Mao001Header processingFile = new Mao001Header();
+                            processingFile.FileName = newFile;
+                            context.Mao001Headers.Add(processingFile);
+                            context.SaveChanges();
+                            string[] segments;
+                            foreach (string line in sMao001Lines)
+                            {
+                                segments = line.Split('*');
+                                if (line.StartsWith("0*MAO-001"))
+                                {
+                                    processingFile.SenderId = segments[6].Substring(0, 6);
+                                    processingFile.InterchangeControlNumber = segments[6].Substring(6, 9);
+                                    processingFile.InterchangeDate = segments[6].Substring(15, 8);
+                                    processingFile.RecordType = segments[7];
+                                    processingFile.ProductionFlag = segments[8];
+                                }
+                                else if (line.StartsWith("1*MAO-001"))
+                                {
+                                    Mao001Detail detail = new Mao001Detail
+                                    {
+                                        HeaderId = processingFile.HeaderId,
+                                        ContractId = segments[2],
+                                        EncounterId = segments[3],
+                                        InternalControlNumber = segments[4].Trim(),
+                                        LineNumber = segments[5],
+                                        DupEncounterId = segments[6],
+                                        DupInternalControlNumber = segments[7].Trim(),
+                                        DupLineNumber = segments[8],
+                                        HICN = segments[9].Trim(),
+                                        DateOfService = segments[10],
+                                        ErrorCode = segments[11]
+                                    };
+                                    details.Add(detail);
+                                }
+                                else if (line.StartsWith("9*MAO-001"))
+                                {
+                                    processingFile.TotalDupLines = segments[2];
+                                    processingFile.TotalLines = segments[3];
+                                    processingFile.TotalEncounters = segments[4];
+                                }
+                                if (details.Count >= 1000)
+                                {
+                                    Mao001Utility.SaveBatch(ref details);
+                                }
+                            }
+                            if (details.Count > 0)
+                            {
+                                Mao001Utility.SaveBatch(ref details);
+                            }
+                            context.SaveChanges();
+                        }
+
+                    });
+                }
+                catch (Exception ex)
+                {
+                    sbLog.AppendLine(ex.Message);
+                }
+                finally
+                {
+                    sbLog.AppendLine("End time:" + DateTime.Now.ToString());
+                    File.AppendAllText(Path.Combine(Mao001LogFolder, "Mao001Log.txt"), sbLog.ToString());
+                }
             }
         }
         private void ParseCmsMao2()
@@ -1652,6 +1751,11 @@ namespace EncPro
                 File.WriteAllText(Path.Combine(tbChartReviewDestination.Text, "ChartReviewNamingConvention_837I_" + page.ToString().PadLeft(3, '0')), sb.ToString());
             }
 
+        }
+
+        private void BtEncryptConnectionString_Click(object sender, EventArgs e)
+        {
+            tbConnectionStringEncrypted.Text = GlobalVariables.Encrypt(tbOriginalConnectionString.Text);
         }
     }
 }

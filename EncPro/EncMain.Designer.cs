@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Meditrac");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Trading Partner");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Trading Partners", new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode5});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Meditrac");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Trading Partner");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Trading Partners", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EncMain));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.lbRunningStatus = new System.Windows.Forms.ToolStripLabel();
@@ -124,6 +124,12 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.dgChartReviewSource = new System.Windows.Forms.DataGridView();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.label19 = new System.Windows.Forms.Label();
+            this.tbOriginalConnectionString = new System.Windows.Forms.TextBox();
+            this.btEncryptConnectionString = new System.Windows.Forms.Button();
+            this.label20 = new System.Windows.Forms.Label();
+            this.tbConnectionStringEncrypted = new System.Windows.Forms.TextBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -155,6 +161,7 @@
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgChartReviewSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
+            this.tabPage8.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -194,7 +201,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -213,16 +220,16 @@
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.treeView1.Margin = new System.Windows.Forms.Padding(4);
             this.treeView1.Name = "treeView1";
-            treeNode4.Name = "Node2";
-            treeNode4.Text = "Meditrac";
-            treeNode5.Name = "Node3";
-            treeNode5.Text = "Trading Partner";
-            treeNode6.Name = "Node0";
-            treeNode6.Text = "Trading Partners";
+            treeNode1.Name = "Node2";
+            treeNode1.Text = "Meditrac";
+            treeNode2.Name = "Node3";
+            treeNode2.Text = "Trading Partner";
+            treeNode3.Name = "Node0";
+            treeNode3.Text = "Trading Partners";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6});
+            treeNode3});
             this.treeView1.Size = new System.Drawing.Size(257, 934);
             this.treeView1.TabIndex = 0;
             // 
@@ -235,9 +242,10 @@
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage7);
+            this.tabControl1.Controls.Add(this.tabPage8);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1405, 934);
@@ -248,9 +256,9 @@
             // 
             this.tabPage1.Controls.Add(this.splitContainer2);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage1.Size = new System.Drawing.Size(1397, 905);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Load Meditrac Data";
@@ -260,7 +268,7 @@
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(4, 4);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -277,13 +285,14 @@
             this.splitContainer2.Panel2.Controls.Add(this.dataGridView1);
             this.splitContainer2.Panel2.Controls.Add(this.bindingNavigator1);
             this.splitContainer2.Size = new System.Drawing.Size(1389, 897);
+            this.splitContainer2.SplitterDistance = 49;
             this.splitContainer2.SplitterWidth = 5;
             this.splitContainer2.TabIndex = 0;
             // 
             // btLoadData
             // 
             this.btLoadData.Location = new System.Drawing.Point(745, 5);
-            this.btLoadData.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btLoadData.Margin = new System.Windows.Forms.Padding(4);
             this.btLoadData.Name = "btLoadData";
             this.btLoadData.Size = new System.Drawing.Size(139, 28);
             this.btLoadData.TabIndex = 9;
@@ -293,7 +302,7 @@
             // dateTimePicker2
             // 
             this.dateTimePicker2.Location = new System.Drawing.Point(457, 9);
-            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(265, 22);
             this.dateTimePicker2.TabIndex = 8;
@@ -311,7 +320,7 @@
             // dateTimePicker1
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(117, 9);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(265, 22);
             this.dateTimePicker1.TabIndex = 6;
@@ -331,10 +340,10 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 27);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.Size = new System.Drawing.Size(1389, 815);
+            this.dataGridView1.Size = new System.Drawing.Size(1389, 816);
             this.dataGridView1.TabIndex = 4;
             // 
             // bindingNavigator1
@@ -442,9 +451,9 @@
             this.tabPage5.Controls.Add(this.label11);
             this.tabPage5.Controls.Add(this.label10);
             this.tabPage5.Location = new System.Drawing.Point(4, 25);
-            this.tabPage5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage5.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1396, 904);
+            this.tabPage5.Size = new System.Drawing.Size(1397, 905);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Load Trading Partner 837s";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -454,7 +463,7 @@
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 16;
             this.listBox1.Location = new System.Drawing.Point(131, 454);
-            this.listBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listBox1.Margin = new System.Windows.Forms.Padding(4);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(1056, 356);
             this.listBox1.TabIndex = 10;
@@ -462,7 +471,7 @@
             // btEVRReportBrowse
             // 
             this.btEVRReportBrowse.Location = new System.Drawing.Point(1088, 270);
-            this.btEVRReportBrowse.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btEVRReportBrowse.Margin = new System.Windows.Forms.Padding(4);
             this.btEVRReportBrowse.Name = "btEVRReportBrowse";
             this.btEVRReportBrowse.Size = new System.Drawing.Size(100, 28);
             this.btEVRReportBrowse.TabIndex = 9;
@@ -472,7 +481,7 @@
             // tbEVRReportFolder
             // 
             this.tbEVRReportFolder.Location = new System.Drawing.Point(372, 272);
-            this.tbEVRReportFolder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbEVRReportFolder.Margin = new System.Windows.Forms.Padding(4);
             this.tbEVRReportFolder.Name = "tbEVRReportFolder";
             this.tbEVRReportFolder.Size = new System.Drawing.Size(707, 22);
             this.tbEVRReportFolder.TabIndex = 8;
@@ -490,7 +499,7 @@
             // btLoadTP837s
             // 
             this.btLoadTP837s.Location = new System.Drawing.Point(131, 361);
-            this.btLoadTP837s.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btLoadTP837s.Margin = new System.Windows.Forms.Padding(4);
             this.btLoadTP837s.Name = "btLoadTP837s";
             this.btLoadTP837s.Size = new System.Drawing.Size(233, 28);
             this.btLoadTP837s.TabIndex = 6;
@@ -500,7 +509,7 @@
             // btTP837sArchiveBrowse
             // 
             this.btTP837sArchiveBrowse.Location = new System.Drawing.Point(1088, 186);
-            this.btTP837sArchiveBrowse.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btTP837sArchiveBrowse.Margin = new System.Windows.Forms.Padding(4);
             this.btTP837sArchiveBrowse.Name = "btTP837sArchiveBrowse";
             this.btTP837sArchiveBrowse.Size = new System.Drawing.Size(100, 28);
             this.btTP837sArchiveBrowse.TabIndex = 5;
@@ -510,7 +519,7 @@
             // btTP837sSourceBrowse
             // 
             this.btTP837sSourceBrowse.Location = new System.Drawing.Point(1088, 105);
-            this.btTP837sSourceBrowse.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btTP837sSourceBrowse.Margin = new System.Windows.Forms.Padding(4);
             this.btTP837sSourceBrowse.Name = "btTP837sSourceBrowse";
             this.btTP837sSourceBrowse.Size = new System.Drawing.Size(100, 28);
             this.btTP837sSourceBrowse.TabIndex = 4;
@@ -520,7 +529,7 @@
             // tbTP837sArchiveFolder
             // 
             this.tbTP837sArchiveFolder.Location = new System.Drawing.Point(372, 188);
-            this.tbTP837sArchiveFolder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbTP837sArchiveFolder.Margin = new System.Windows.Forms.Padding(4);
             this.tbTP837sArchiveFolder.Name = "tbTP837sArchiveFolder";
             this.tbTP837sArchiveFolder.Size = new System.Drawing.Size(707, 22);
             this.tbTP837sArchiveFolder.TabIndex = 3;
@@ -528,7 +537,7 @@
             // tbTP837sSourceFolder
             // 
             this.tbTP837sSourceFolder.Location = new System.Drawing.Point(372, 107);
-            this.tbTP837sSourceFolder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbTP837sSourceFolder.Margin = new System.Windows.Forms.Padding(4);
             this.tbTP837sSourceFolder.Name = "tbTP837sSourceFolder";
             this.tbTP837sSourceFolder.Size = new System.Drawing.Size(707, 22);
             this.tbTP837sSourceFolder.TabIndex = 2;
@@ -561,10 +570,10 @@
             this.tabPage2.Controls.Add(this.label3);
             this.tabPage2.Controls.Add(this.comboBox1);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage2.Size = new System.Drawing.Size(1396, 904);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage2.Size = new System.Drawing.Size(1397, 905);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Generate 837s";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -572,7 +581,7 @@
             // btExport
             // 
             this.btExport.Location = new System.Drawing.Point(755, 151);
-            this.btExport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btExport.Margin = new System.Windows.Forms.Padding(4);
             this.btExport.Name = "btExport";
             this.btExport.Size = new System.Drawing.Size(163, 28);
             this.btExport.TabIndex = 14;
@@ -586,7 +595,7 @@
             "Production",
             "Test"});
             this.comboBox2.Location = new System.Drawing.Point(561, 154);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox2.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(160, 24);
             this.comboBox2.TabIndex = 13;
@@ -636,7 +645,7 @@
             "DHCSP306",
             "DHCS_ALL"});
             this.comboBox1.Location = new System.Drawing.Point(329, 154);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(160, 24);
             this.comboBox1.TabIndex = 10;
@@ -652,9 +661,9 @@
             this.tabPage3.Controls.Add(this.tbSubmissionSourceFolder);
             this.tabPage3.Controls.Add(this.label5);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1396, 904);
+            this.tabPage3.Size = new System.Drawing.Size(1397, 905);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Parse Submissions";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -664,7 +673,7 @@
             this.listBox2.FormattingEnabled = true;
             this.listBox2.ItemHeight = 16;
             this.listBox2.Location = new System.Drawing.Point(123, 347);
-            this.listBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listBox2.Margin = new System.Windows.Forms.Padding(4);
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(1116, 500);
             this.listBox2.TabIndex = 7;
@@ -672,7 +681,7 @@
             // btParseSubmission
             // 
             this.btParseSubmission.Location = new System.Drawing.Point(123, 282);
-            this.btParseSubmission.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btParseSubmission.Margin = new System.Windows.Forms.Padding(4);
             this.btParseSubmission.Name = "btParseSubmission";
             this.btParseSubmission.Size = new System.Drawing.Size(297, 28);
             this.btParseSubmission.TabIndex = 6;
@@ -683,7 +692,7 @@
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(1140, 196);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(100, 28);
             this.button2.TabIndex = 5;
@@ -693,7 +702,7 @@
             // tbSubmissionArchiveFolder
             // 
             this.tbSubmissionArchiveFolder.Location = new System.Drawing.Point(228, 198);
-            this.tbSubmissionArchiveFolder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbSubmissionArchiveFolder.Margin = new System.Windows.Forms.Padding(4);
             this.tbSubmissionArchiveFolder.Name = "tbSubmissionArchiveFolder";
             this.tbSubmissionArchiveFolder.Size = new System.Drawing.Size(877, 22);
             this.tbSubmissionArchiveFolder.TabIndex = 4;
@@ -711,7 +720,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(1140, 119);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(100, 28);
             this.button1.TabIndex = 2;
@@ -721,7 +730,7 @@
             // tbSubmissionSourceFolder
             // 
             this.tbSubmissionSourceFolder.Location = new System.Drawing.Point(228, 122);
-            this.tbSubmissionSourceFolder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbSubmissionSourceFolder.Margin = new System.Windows.Forms.Padding(4);
             this.tbSubmissionSourceFolder.Name = "tbSubmissionSourceFolder";
             this.tbSubmissionSourceFolder.Size = new System.Drawing.Size(877, 22);
             this.tbSubmissionSourceFolder.TabIndex = 1;
@@ -748,7 +757,7 @@
             this.tabPage4.Controls.Add(this.cbResponseFile);
             this.tabPage4.Controls.Add(this.label7);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(1397, 905);
             this.tabPage4.TabIndex = 3;
@@ -758,7 +767,7 @@
             // btLoadResponse
             // 
             this.btLoadResponse.Location = new System.Drawing.Point(131, 318);
-            this.btLoadResponse.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btLoadResponse.Margin = new System.Windows.Forms.Padding(4);
             this.btLoadResponse.Name = "btLoadResponse";
             this.btLoadResponse.Size = new System.Drawing.Size(317, 28);
             this.btLoadResponse.TabIndex = 8;
@@ -769,7 +778,7 @@
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(1192, 254);
-            this.button5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button5.Margin = new System.Windows.Forms.Padding(4);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(100, 28);
             this.button5.TabIndex = 7;
@@ -779,7 +788,7 @@
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(1192, 201);
-            this.button4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(100, 28);
             this.button4.TabIndex = 6;
@@ -789,7 +798,7 @@
             // tbResponseArchiveFolder
             // 
             this.tbResponseArchiveFolder.Location = new System.Drawing.Point(273, 256);
-            this.tbResponseArchiveFolder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbResponseArchiveFolder.Margin = new System.Windows.Forms.Padding(4);
             this.tbResponseArchiveFolder.Name = "tbResponseArchiveFolder";
             this.tbResponseArchiveFolder.Size = new System.Drawing.Size(895, 22);
             this.tbResponseArchiveFolder.TabIndex = 5;
@@ -807,7 +816,7 @@
             // tbResponseSourceFolder
             // 
             this.tbResponseSourceFolder.Location = new System.Drawing.Point(273, 203);
-            this.tbResponseSourceFolder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbResponseSourceFolder.Margin = new System.Windows.Forms.Padding(4);
             this.tbResponseSourceFolder.Name = "tbResponseSourceFolder";
             this.tbResponseSourceFolder.Size = new System.Drawing.Size(895, 22);
             this.tbResponseSourceFolder.TabIndex = 3;
@@ -828,6 +837,7 @@
             this.cbResponseFile.Items.AddRange(new object[] {
             "CMS 999",
             "CMS 277CA",
+            "CMS MAO001",
             "CMS MAO002",
             "CMS MAO004",
             "DHCS EVR",
@@ -836,7 +846,7 @@
             "NCPDP",
             "Raps"});
             this.cbResponseFile.Location = new System.Drawing.Point(273, 153);
-            this.cbResponseFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbResponseFile.Margin = new System.Windows.Forms.Padding(4);
             this.cbResponseFile.Name = "cbResponseFile";
             this.cbResponseFile.Size = new System.Drawing.Size(160, 24);
             this.cbResponseFile.TabIndex = 1;
@@ -855,7 +865,7 @@
             // 
             this.tabPage6.Controls.Add(this.splitContainer3);
             this.tabPage6.Location = new System.Drawing.Point(4, 25);
-            this.tabPage6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage6.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Size = new System.Drawing.Size(1397, 905);
             this.tabPage6.TabIndex = 5;
@@ -866,7 +876,7 @@
             // 
             this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer3.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer3.Name = "splitContainer3";
             this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -898,7 +908,7 @@
             "Production",
             "Test"});
             this.cbRapsFlag.Location = new System.Drawing.Point(352, 178);
-            this.cbRapsFlag.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbRapsFlag.Margin = new System.Windows.Forms.Padding(4);
             this.cbRapsFlag.Name = "cbRapsFlag";
             this.cbRapsFlag.Size = new System.Drawing.Size(132, 24);
             this.cbRapsFlag.TabIndex = 9;
@@ -916,7 +926,7 @@
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(493, 176);
-            this.button7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button7.Margin = new System.Windows.Forms.Padding(4);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(195, 28);
             this.button7.TabIndex = 7;
@@ -927,7 +937,7 @@
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(1283, 91);
-            this.button6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button6.Margin = new System.Windows.Forms.Padding(4);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(100, 28);
             this.button6.TabIndex = 6;
@@ -937,7 +947,7 @@
             // tbRapsDestination
             // 
             this.tbRapsDestination.Location = new System.Drawing.Point(449, 95);
-            this.tbRapsDestination.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbRapsDestination.Margin = new System.Windows.Forms.Padding(4);
             this.tbRapsDestination.Name = "tbRapsDestination";
             this.tbRapsDestination.Size = new System.Drawing.Size(816, 22);
             this.tbRapsDestination.TabIndex = 5;
@@ -955,7 +965,7 @@
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(1283, 23);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button3.Margin = new System.Windows.Forms.Padding(4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(100, 28);
             this.button3.TabIndex = 3;
@@ -966,7 +976,7 @@
             // tbRapsFileSource
             // 
             this.tbRapsFileSource.Location = new System.Drawing.Point(449, 26);
-            this.tbRapsFileSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbRapsFileSource.Margin = new System.Windows.Forms.Padding(4);
             this.tbRapsFileSource.Name = "tbRapsFileSource";
             this.tbRapsFileSource.Size = new System.Drawing.Size(816, 22);
             this.tbRapsFileSource.TabIndex = 2;
@@ -984,7 +994,7 @@
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(39, 27);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(244, 229);
@@ -996,7 +1006,7 @@
             this.dgRapsSource.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgRapsSource.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgRapsSource.Location = new System.Drawing.Point(0, 0);
-            this.dgRapsSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgRapsSource.Margin = new System.Windows.Forms.Padding(4);
             this.dgRapsSource.Name = "dgRapsSource";
             this.dgRapsSource.RowHeadersWidth = 51;
             this.dgRapsSource.Size = new System.Drawing.Size(1397, 617);
@@ -1006,7 +1016,7 @@
             // 
             this.tabPage7.Controls.Add(this.splitContainer4);
             this.tabPage7.Location = new System.Drawing.Point(4, 25);
-            this.tabPage7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage7.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Size = new System.Drawing.Size(1397, 905);
             this.tabPage7.TabIndex = 6;
@@ -1017,7 +1027,7 @@
             // 
             this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer4.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer4.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer4.Name = "splitContainer4";
             this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -1049,7 +1059,7 @@
             "Production",
             "Test"});
             this.cbChartReviewFlag.Location = new System.Drawing.Point(309, 160);
-            this.cbChartReviewFlag.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbChartReviewFlag.Margin = new System.Windows.Forms.Padding(4);
             this.cbChartReviewFlag.Name = "cbChartReviewFlag";
             this.cbChartReviewFlag.Size = new System.Drawing.Size(140, 24);
             this.cbChartReviewFlag.TabIndex = 9;
@@ -1067,7 +1077,7 @@
             // btChartReviewGenerate
             // 
             this.btChartReviewGenerate.Location = new System.Drawing.Point(469, 158);
-            this.btChartReviewGenerate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btChartReviewGenerate.Margin = new System.Windows.Forms.Padding(4);
             this.btChartReviewGenerate.Name = "btChartReviewGenerate";
             this.btChartReviewGenerate.Size = new System.Drawing.Size(240, 28);
             this.btChartReviewGenerate.TabIndex = 7;
@@ -1078,7 +1088,7 @@
             // btChartReviewDestination
             // 
             this.btChartReviewDestination.Location = new System.Drawing.Point(1283, 87);
-            this.btChartReviewDestination.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btChartReviewDestination.Margin = new System.Windows.Forms.Padding(4);
             this.btChartReviewDestination.Name = "btChartReviewDestination";
             this.btChartReviewDestination.Size = new System.Drawing.Size(100, 28);
             this.btChartReviewDestination.TabIndex = 6;
@@ -1088,7 +1098,7 @@
             // tbChartReviewDestination
             // 
             this.tbChartReviewDestination.Location = new System.Drawing.Point(469, 90);
-            this.tbChartReviewDestination.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbChartReviewDestination.Margin = new System.Windows.Forms.Padding(4);
             this.tbChartReviewDestination.Name = "tbChartReviewDestination";
             this.tbChartReviewDestination.Size = new System.Drawing.Size(777, 22);
             this.tbChartReviewDestination.TabIndex = 5;
@@ -1106,7 +1116,7 @@
             // btChartReviewSource
             // 
             this.btChartReviewSource.Location = new System.Drawing.Point(1283, 36);
-            this.btChartReviewSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btChartReviewSource.Margin = new System.Windows.Forms.Padding(4);
             this.btChartReviewSource.Name = "btChartReviewSource";
             this.btChartReviewSource.Size = new System.Drawing.Size(100, 28);
             this.btChartReviewSource.TabIndex = 3;
@@ -1117,7 +1127,7 @@
             // tbChartReviewSource
             // 
             this.tbChartReviewSource.Location = new System.Drawing.Point(469, 38);
-            this.tbChartReviewSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbChartReviewSource.Margin = new System.Windows.Forms.Padding(4);
             this.tbChartReviewSource.Name = "tbChartReviewSource";
             this.tbChartReviewSource.Size = new System.Drawing.Size(777, 22);
             this.tbChartReviewSource.TabIndex = 2;
@@ -1135,7 +1145,7 @@
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(48, 38);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(187, 201);
@@ -1149,11 +1159,67 @@
             this.dgChartReviewSource.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgChartReviewSource.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgChartReviewSource.Location = new System.Drawing.Point(0, 0);
-            this.dgChartReviewSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgChartReviewSource.Margin = new System.Windows.Forms.Padding(4);
             this.dgChartReviewSource.Name = "dgChartReviewSource";
             this.dgChartReviewSource.RowHeadersWidth = 51;
             this.dgChartReviewSource.Size = new System.Drawing.Size(1397, 606);
             this.dgChartReviewSource.TabIndex = 0;
+            // 
+            // tabPage8
+            // 
+            this.tabPage8.Controls.Add(this.tbConnectionStringEncrypted);
+            this.tabPage8.Controls.Add(this.label20);
+            this.tabPage8.Controls.Add(this.btEncryptConnectionString);
+            this.tabPage8.Controls.Add(this.tbOriginalConnectionString);
+            this.tabPage8.Controls.Add(this.label19);
+            this.tabPage8.Location = new System.Drawing.Point(4, 25);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Size = new System.Drawing.Size(1397, 905);
+            this.tabPage8.TabIndex = 7;
+            this.tabPage8.Text = "Encrypt Connection String";
+            this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(63, 78);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(200, 17);
+            this.label19.TabIndex = 0;
+            this.label19.Text = "Connection String (Plain Text):";
+            // 
+            // tbOriginalConnectionString
+            // 
+            this.tbOriginalConnectionString.Location = new System.Drawing.Point(269, 75);
+            this.tbOriginalConnectionString.Name = "tbOriginalConnectionString";
+            this.tbOriginalConnectionString.Size = new System.Drawing.Size(772, 22);
+            this.tbOriginalConnectionString.TabIndex = 1;
+            // 
+            // btEncryptConnectionString
+            // 
+            this.btEncryptConnectionString.Location = new System.Drawing.Point(66, 124);
+            this.btEncryptConnectionString.Name = "btEncryptConnectionString";
+            this.btEncryptConnectionString.Size = new System.Drawing.Size(197, 23);
+            this.btEncryptConnectionString.TabIndex = 2;
+            this.btEncryptConnectionString.Text = "Encrypt";
+            this.btEncryptConnectionString.UseVisualStyleBackColor = true;
+            this.btEncryptConnectionString.Click += new System.EventHandler(this.BtEncryptConnectionString_Click);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(63, 191);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(202, 17);
+            this.label20.TabIndex = 3;
+            this.label20.Text = "Connection String (Encrypted):";
+            // 
+            // tbConnectionStringEncrypted
+            // 
+            this.tbConnectionStringEncrypted.Location = new System.Drawing.Point(271, 188);
+            this.tbConnectionStringEncrypted.Name = "tbConnectionStringEncrypted";
+            this.tbConnectionStringEncrypted.Size = new System.Drawing.Size(770, 22);
+            this.tbConnectionStringEncrypted.TabIndex = 4;
             // 
             // EncMain
             // 
@@ -1162,7 +1228,7 @@
             this.ClientSize = new System.Drawing.Size(1667, 964);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "EncMain";
             this.Text = "Encounter Submission System";
             this.Load += new System.EventHandler(this.EncPro_Load);
@@ -1207,6 +1273,8 @@
             this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgChartReviewSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
+            this.tabPage8.ResumeLayout(false);
+            this.tabPage8.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1303,5 +1371,11 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.ComboBox cbChartReviewFlag;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.TextBox tbConnectionStringEncrypted;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Button btEncryptConnectionString;
+        private System.Windows.Forms.TextBox tbOriginalConnectionString;
+        private System.Windows.Forms.Label label19;
     }
 }

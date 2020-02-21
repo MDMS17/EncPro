@@ -84,6 +84,9 @@
     <Compile Include="M834\M834Context.cs" />
     <Compile Include="M834\M834Model.cs" />
     <Compile Include="M834\M834Utility.cs" />
+    <Compile Include="MAO001\Mao001Context.cs" />
+    <Compile Include="MAO001\Mao001Model.cs" />
+    <Compile Include="MAO001\Mao001Utility.cs" />
     <Compile Include="MAO2\CmsMao2Context.cs" />
     <Compile Include="MAO2\Mao2Detail.cs" />
     <Compile Include="MAO2\Mao2File.cs" />
@@ -170,10 +173,12 @@
   <ItemGroup>
     <Content Include="SQL\CMS277CA.sql" />
     <Content Include="SQL\CMS999.sql" />
+    <Content Include="SQL\CMSMao001.sql" />
     <Content Include="SQL\CMSMAO002.sql" />
     <Content Include="SQL\CMSMAO004.sql" />
     <Content Include="SQL\DHCS.sql" />
     <Content Include="SQL\Finance835.sql" />
+    <Content Include="SQL\Log.sql" />
     <Content Include="SQL\Member834.sql" />
     <Content Include="SQL\Pah42.sql" />
     <Content Include="SQL\Premium820.sql" />
